@@ -1,24 +1,31 @@
 <?php
 
 $username = $_POST["username"];
-$modkanal = $_POST["modkanal"];
-$modkanalurl = "";
+$modchannel = $_POST["modchannel"];
+$action = $_POST["goto"];
 
-if ($modkanal == "cooper") {
 
-    $modkanalurl = "martincooper_lspd";
-    $modkarte = "https://www.twitch.tv/popout/$modkanalurl/viewercard/$username";
-    header("Location: $modkarte");
+function goToUserinfo($modchannel, $username) {
+  if (empty($username)) {
+    echo "The userinfo isn't visible because you doesn't enter a username.";
+    header("refresh: 5; url=index.html");
+}
 
-}elseif ($modkanal == "mueller") {
+elseif (!empty($username)) {
+  header("Location: https://www.twitch.tv/popout/$modchannel/viewercard/$username");
+}
+}
 
-    $modkanalurl = "harvey_mueller7";
-    $modkarte = "https://www.twitch.tv/popout/$modkanalurl/viewercard/$username";
-    header("Location: $modkarte");
+function goToLiveModeration($modchannel) {
+  header("Location: https://www.twitch.tv/moderator/$modchannel");
+}
 
-}else {
+if ($action == "userinfo") {
+  goToUserinfo($modchannel, $username);
+}
 
-    echo "Kein gültiger Kanal für die Moderation ausgewählt - Moderationskarte kann nicht aufgerufen werden.";
+elseif ($action == "livemod") {
+  goToLiveModeration($modchannel);
 }
 
 ?>
